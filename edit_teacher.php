@@ -95,11 +95,12 @@ include "header.php";?>
         <tr>
           <th class="font3" scope="col"><div align="right">ตำแหน่งงาน :</div></th>
           <th colspan="2" style="padding:3px 3px;" scope="col"><div align="left">
-            <label>
+          	<input name="name" type="text" class="inputedit" id="name" size="40" required="required" value="ครูที่ปรึกษา" style="padding:5px" disabled="disabled"/>
+            <!-- <label>
             <select name="position" id="position">
               <option value="1">ครูที่ปรึกษา</option>
             </select>
-            </label>
+            </label> -->
           </div></th>
         </tr>
         <tr>
