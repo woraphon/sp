@@ -43,8 +43,11 @@ include "header.php";?>
 	   
         <tr>
           <th class="font3" scope="col"><form id="form1" name="form1" method="post" action="?search=show">
-            <label>
-            ระบุข้อมูลที่ต้องการค้นหา            </label>
+            <label> ระบุข้อมูลที่ต้องการค้นหา  </label>
+            	<select name="position" id="position">
+              		<option value="1">รหัสนักเรียน</option>
+              		<option value="2">ชื่อนักเรียน</option>
+            	</select>
             <label>
             <input name="txt_search" type="text" id="txt_search" style="padding:3px;" size="30" required="required" />
             </label>
@@ -58,8 +61,9 @@ include "header.php";?>
 		
 		
         <tr>
-          <th class="font3" scope="col"><? if($_REQUEST['search']=='show'){?><table width="100%" border="0">
-		 
+          <th class="font3" scope="col">
+          <? if($_REQUEST['search']=='show'){?>
+          <table width="100%" border="0">
             <tr>
               <th width="auto" class="count" scope="col">รหัสนักเรียน</th>
               <th width="auto" class="count" scope="col">ชื่อ-นามสกุล</th>
