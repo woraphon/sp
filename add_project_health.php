@@ -81,7 +81,7 @@ echo "<script language=\"javascript\">";
       <tr>
         <th scope="col"><table width="100%" border="0">
 		  
-		  <? $sql = mysql_query("select * from student where student_id = '$_REQUEST[id3]'");
+		  <? $sql = mysql_query("select * from student where student_id = '$_REQUEST[id]'");
 		  $show = mysql_fetch_assoc ($sql);
 		  ?>
             <tr>

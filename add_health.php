@@ -29,7 +29,7 @@ for($s = 0 ; $s < count($day);$s++){
 
 echo "<script language=\"javascript\">";
 echo "alert('เพิ่มข้อมูลเรียบร้อย!');";
-echo "window.location='student_health.php?return=1&stu=$stu';";
+echo "window.location='student_health.php?return=1&stu=$stu&mount_s=$month[$nMonth]&year_s=$year';";
 echo "</script>";
 
 
