@@ -37,14 +37,12 @@ include "header.php";?>
         <tr>
           <th scope="col" style="padding:10px 1px;"><div align="left" class="header2">ค้นหาข้อมูลนักเรียน</div></th>
         </tr>
-       
-		
-       
-	   
+
         <tr>
           <th class="font3" scope="col"><form id="form1" name="form1" method="post" action="?search=show">
             <label> ระบุข้อมูลที่ต้องการค้นหา  </label>
-            	<select name="position" id="position">
+            	<select name="select" id="select">
+            		
               		<option value="1">รหัสนักเรียน</option>
               		<option value="2">ชื่อนักเรียน</option>
             	</select>
@@ -58,11 +56,12 @@ include "header.php";?>
           </th>
           </tr>
 		
-		
+		<? if($_REQUEST['search']=='show'){?>
 		
         <tr>
           <th class="font3" scope="col">
-          <? if($_REQUEST['search']=='show'){?>
+          
+          <? if($_REQUEST['select']=='1'){?>
           <table width="100%" border="0">
             <tr>
               <th width="auto" class="count" scope="col">รหัสนักเรียน</th>
@@ -72,9 +71,9 @@ include "header.php";?>
               <th width="auto" class="count" scope="col">ระดับชั้น</th>
               <th width="auto" class="count" scope="col">อาจารย์ที่ปรึกษา</th>
               <th width="-1" class="count" scope="col">เบอร์ติดต่อ</th>
-              <th width="-1" class="count" scope="col">ข้อมูลสุขภาพ</th>
+              
             </tr>
-			  <? $sql = mysql_query ("select * from student where student_id like '%$_REQUEST[txt_search]%' or student_name like '%$_REQUEST[txt_search]%' or student_call like '%$_REQUEST[txt_search]%' order by s_id desc");
+			  <? $sql = mysql_query ("select * from student where student_id like '%$_REQUEST[txt_search]%'order by s_id desc");
 			  while ($show = mysql_fetch_assoc ($sql)){
 			  
 			  $sql2 = mysql_query ("select * from employee where e_id = '$show[e_id]'");
@@ -90,8 +89,7 @@ include "header.php";?>
               <th class="font2" scope="col"><? echo $show[student_class];?></th>
               <th class="font2" scope="col"><? echo $show2[e_name];?></th>
               <th class="font2" scope="col"><? echo $show[student_call];?></th>
-              <th class="font2" scope="col"><a href="view_detail.php?id=<? echo $show[student_id];?>" target="_blank"><input type="button" class="submit" value="คลิก" />
-              </a></th>
+              
             </tr>
 			<? }?>
             <tr>
@@ -102,9 +100,83 @@ include "header.php";?>
               <th colspan="8" scope="col">&nbsp;</th>
               </tr>
           </table>
-		  <? }?>
+		  <? }
+		  elseif ($_REQUEST['select']=='2') {?>
+		  <table width="100%" border="0">
+            <tr>
+              <th width="auto" class="count" scope="col">รหัสนักเรียน</th>
+              <th width="auto" class="count" scope="col">ชื่อ-นามสกุล</th>
+              <th width="auto" class="count" scope="col">วันเกิด</th>
+              <th width="auto" class="count" scope="col">เพศ</th>
+              <th width="auto" class="count" scope="col">ระดับชั้น</th>
+              <th width="auto" class="count" scope="col">อาจารย์ที่ปรึกษา</th>
+              <th width="-1" class="count" scope="col">เบอร์ติดต่อ</th>
+              
+            </tr>
+			  <? $sql = mysql_query ("select * from student where student_name like '%$_REQUEST[txt_search]%' order by s_id desc");
+			  while ($show = mysql_fetch_assoc ($sql)){
+			  
+			  $sql2 = mysql_query ("select * from employee where e_id = '$show[e_id]'");
+			  
+			  $show2 = mysql_fetch_assoc ($sql2);
+			  
+			  ?>
+            <tr>
+              <th class="font2" scope="col"><? echo $show[student_id];?></th>
+              <th class="font2" scope="col"><? echo $show[student_name];?></th>
+              <th class="font2" scope="col"><? echo $show[student_birth];?></th>
+              <th class="font2" scope="col"><? echo $show[student_sex];?></th>
+              <th class="font2" scope="col"><? echo $show[student_class];?></th>
+              <th class="font2" scope="col"><? echo $show2[e_name];?></th>
+              <th class="font2" scope="col"><? echo $show[student_call];?></th>
+              
+            </tr>
+			<? }?>
+            <tr>
+              <th colspan="8" class="font2" scope="col"><? if(mysql_num_rows($sql)==0){echo 'ไม่พบข้อมูล';}?></th>
+              </tr>
+			  
+            <tr>
+              <th colspan="8" scope="col">&nbsp;</th>
+              </tr>
+          </table>
+          <?php }
+          	else {
+          		?>
+          		<table width="100%" border="0">
+            <tr>
+              <th width="auto" class="count" scope="col">รหัสนักเรียน</th>
+              <th width="auto" class="count" scope="col">ชื่อ-นามสกุล</th>
+              <th width="auto" class="count" scope="col">วันเกิด</th>
+              <th width="auto" class="count" scope="col">เพศ</th>
+              <th width="auto" class="count" scope="col">ระดับชั้น</th>
+              <th width="auto" class="count" scope="col">อาจารย์ที่ปรึกษา</th>
+              <th width="-1" class="count" scope="col">เบอร์ติดต่อ</th>
+              
+            </tr>
+            <tr>
+              <th class="font2" scope="col"> - </th>
+              <th class="font2" scope="col"> - </th>
+              <th class="font2" scope="col"> - </th>
+              <th class="font2" scope="col"> - </th>
+              <th class="font2" scope="col"> - </th>
+              <th class="font2" scope="col"> - </th>
+              <th class="font2" scope="col"> - </th>
+              
+            </tr>
+            <tr>
+              <th colspan="8" class="font2" scope="col"><? if(mysql_num_rows($sql)==0){echo 'ไม่พบข้อมูล';}?></th>
+              </tr>
+			  
+            <tr>
+              <th colspan="8" scope="col">&nbsp;</th>
+              </tr>
+          </table>
+          		<?php }?>
 		  </th>
           </tr>
+          <?php }
+          ?>
       
         
       </table>
