@@ -101,7 +101,8 @@ include "header.php";?>
               </tr>
           </table>
 		  <? }
-		  elseif ($_REQUEST['select']=='2') {?>
+		  elseif ($_REQUEST['select']=='2') {
+		  	?>
 		  <table width="100%" border="0">
             <tr>
               <th width="auto" class="count" scope="col">รหัสนักเรียน</th>
@@ -110,8 +111,8 @@ include "header.php";?>
               <th width="auto" class="count" scope="col">เพศ</th>
               <th width="auto" class="count" scope="col">ระดับชั้น</th>
               <th width="auto" class="count" scope="col">อาจารย์ที่ปรึกษา</th>
-              <th width="-1" class="count" scope="col">เบอร์ติดต่อ</th>
-              
+              <th width="auto" class="count" scope="col">เบอร์ติดต่อ</th>
+    
             </tr>
 			  <? $sql = mysql_query ("select * from student where student_name like '%$_REQUEST[txt_search]%' order by s_id desc");
 			  while ($show = mysql_fetch_assoc ($sql)){
