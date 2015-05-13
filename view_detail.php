@@ -91,25 +91,7 @@ echo "<script language=\"javascript\">";
 			   <? }?>
             <tr>
               <th colspan="4" class="font2" scope="col"><hr /><div align="right" class="style1">คะแนนรวมทั้งหมด : <? echo $total;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><hr /></th>
-              </tr>
-			 
-            <tr>
-              <th colspan="4" scope="col"><div align="right">
-                <label></label>
-                <form id="form1" name="form1" method="post" action="?s=save&s_id=<? echo $s_id;?>&id=<? echo $_REQUEST['id'];?>">
-                  <label class="style1">
-                  <input name="chk" type="radio" value="1" <? if($show[s_chk]==1){echo 'checked';}?> />
-                  ผ่าน
-                  <input name="chk" type="radio" value="2" <? if($show[s_chk]==2){echo 'checked';}?> />
-                  ไม่ผ่าน&nbsp;&nbsp;</label>
-                  <label>
-                  <input type="submit" name="Submit2" value="บันทึก" />
-                  </label>
-				  <? if($show[s_chk]==2){?><hr /><a href="add_project_health.php?id=<? echo $_REQUEST['id'];?>&month=<? echo $_REQUEST['month'];?>&year=<? echo $_REQUEST['year'];?>&id2=<? echo $show[s_id];?>" target="_blank"><input type="button" name="Submit2" value="เข้าร่วมโครงการ!" /></a><? }?>
-                  <label class="style1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
-          <hr /></form>
-                </div></th>
-              </tr>
+              </tr>  
             <tr>
               <th colspan="4" scope="col"><? if(mysql_num_rows($sql)==0){echo '<font color=red>ไม่พบข้อมูล</font>';} else {?>
                 <input name="Input" type="button" value="พิมพ์" onclick="window.print();" />
