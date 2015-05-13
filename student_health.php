@@ -56,10 +56,8 @@ include "header.php";?>
         <tr>
           <th scope="col" style="padding:10px 1px;"><div align="left" class="header2">บันทึกการตรวจสุขภาพของนักเรียน</div></th>
         </tr>
-       
+<!-- --------------------------------------------------------------------------------------------------------------------- -->       
 		<form action="add_health.php" method="post" enctype="multipart/form-data">
-       
-	   
         <tr>
           <th class="font3" scope="col" style="padding:3px 10px;"><div align="left">ชื่อนักเรียน : 
             <label>
@@ -91,11 +89,11 @@ include "header.php";?>
                   </label>
                   คะแนนที่ได้ :
                     <label>
-                    <select name="score[]" id="score[]">
-                      <? for ($i=1;$i<=3;$i++){?>
-                      <option value="<? echo $i;?>"><? echo $i;?></option>
-                      <? }?>
-                    </select>
+                    <select name="score" id="score"> 
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                    </select>           
                     </label>
                     วันที่ :
                     <label>
@@ -135,7 +133,17 @@ include "header.php";?>
                 </div></th>
             </tr>
 <!-- /* ***************************************************************************************** */ -->
-			<? if($_REQUEST['return']=='1'){
+            <?
+            if ($_REQUEST[point]=='3')
+            {	
+            		@mysql_query ("update student_health set s_chk = '1' where s_id = '$_REQUEST[db_s_id]'") or die (mysql_error());
+            		echo "<script language=\"javascript\">";
+            		echo "alert('บันทึกข้อมูลเรียบร้อย!');";
+            		echo "window.location = 'student_health.php?";
+            		echo "</script>"; 	
+            }
+            else {
+			if($_REQUEST['return']=='1'){
 			if($_REQUEST[chk]==""){
 			$sw = $_REQUEST[chk];?>
 			
@@ -334,7 +342,8 @@ include "header.php";?>
             		<? }?>
             	<? }?>
 			<? } 
-			}?>
+			}
+		}?>
           </table></th>
   </tr>
 </table>

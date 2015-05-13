@@ -71,7 +71,7 @@ include "header.php";?>
               <th width="auto" class="count" scope="col">ระดับชั้น</th>
               <th width="auto" class="count" scope="col">อาจารย์ที่ปรึกษา</th>
               <th width="-1" class="count" scope="col">เบอร์ติดต่อ</th>
-              
+              <th width="-1" class="count" scope="col">ข้อมูลสุขภาพ</th>
             </tr>
 			  <? $sql = mysql_query ("select * from student where student_id like '%$_REQUEST[txt_search]%'order by s_id desc");
 			  while ($show = mysql_fetch_assoc ($sql)){
@@ -89,7 +89,8 @@ include "header.php";?>
               <th class="font2" scope="col"><? echo $show[student_class];?></th>
               <th class="font2" scope="col"><? echo $show2[e_name];?></th>
               <th class="font2" scope="col"><? echo $show[student_call];?></th>
-              
+              <th class="font2" scope="col"><a href="view_detail.php?id=<? echo $show[student_id];?>" target="_blank"><input type="button" class="submit" value="คลิก" />
+              </a></th>
             </tr>
 			<? }?>
             <tr>
@@ -112,7 +113,7 @@ include "header.php";?>
               <th width="auto" class="count" scope="col">ระดับชั้น</th>
               <th width="auto" class="count" scope="col">อาจารย์ที่ปรึกษา</th>
               <th width="auto" class="count" scope="col">เบอร์ติดต่อ</th>
-    
+    		  <th width="-1" class="count" scope="col">ข้อมูลสุขภาพ</th>
             </tr>
 			  <? $sql = mysql_query ("select * from student where student_name like '%$_REQUEST[txt_search]%' order by s_id desc");
 			  while ($show = mysql_fetch_assoc ($sql)){
@@ -130,7 +131,8 @@ include "header.php";?>
               <th class="font2" scope="col"><? echo $show[student_class];?></th>
               <th class="font2" scope="col"><? echo $show2[e_name];?></th>
               <th class="font2" scope="col"><? echo $show[student_call];?></th>
-              
+              <th class="font2" scope="col"><a href="view_detail.php?id=<? echo $show[student_id];?>" target="_blank"><input type="button" class="submit" value="คลิก" />
+              </a></th>
             </tr>
 			<? }?>
             <tr>
