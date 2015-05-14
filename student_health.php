@@ -11,6 +11,17 @@ echo "<script language=\"javascript\">";
 	echo "window.location = 'student_health.php?return=1&chk=$_REQUEST[chk]&stu=$student_id2&m=$m&y=$y'";
 	echo "</script>";	
 }
+
+if($_REQUEST['t']=='save'){
+	$student_id2 = $_REQUEST[id_s];
+	$m = $_REQUEST[m];
+	$y = $_REQUEST[y];
+	@mysql_query ("update student_health set s_chk = '$_REQUEST[chk]' where s_id = '$_REQUEST[s_id]'") or die (mysql_error());
+	echo "<script language=\"javascript\">";
+	echo "alert('บันทึกข้อมูลเรียบร้อย!');";
+	echo "window.location = 'student_health.php?return=1&chk=3&stu=$student_id2&m=$m&y=$y'";
+	echo "</script>";
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -135,15 +146,142 @@ include "header.php";?>
 <!-- /* ***************************************************************************************** */ -->
             <?
             if ($_REQUEST[point]=='3')
-            {	
-            		@mysql_query ("update student_health set s_chk = '1' where s_id = '$_REQUEST[db_s_id]'") or die (mysql_error());
-            		echo "<script language=\"javascript\">";
-            		echo "alert('บันทึกข้อมูลเรียบร้อย!');";
-            		echo "window.location = 'student_health.php?";
-            		echo "</script>"; 	
+            {	$sw = $_REQUEST[point];?>
+				  				
+				  	            <tr>
+				  	              <th width="19%" bgcolor="#0099FF" class="style1" scope="col">วัน</th>
+				  	              <th width="39%" bgcolor="#0099FF" class="style1" scope="col">รายการที่ตรวจ</th>
+				  	              <th width="17%" bgcolor="#0099FF" class="style1" scope="col">คะแนนที่ได้</th>
+				  	              <th bgcolor="#0099FF" class="style1" scope="col">วันที่ตรวจ</th>
+				  	            </tr>
+				  				  <? 
+				  				  	  
+				  				  /* ORDER BY RECORD_TIME DESC LIMIT 1 */
+				  				  
+				  				  $sql = mysql_query ("select * from student_health where student_id = '$_REQUEST[id]' && s_month = '$_REQUEST[month]' && s_year = '$_REQUEST[year]'");
+				  				  $show = mysql_fetch_assoc ($sql);
+				  				  
+				  				  $sql2 = mysql_query ("select * from student_health_detail  where s_id order by s_id DESC LIMIT 1 ");
+				  				  /* $sql2 = mysql_query ("select * from student_health s ,student_health_detail d where s.s_id = d.s_id && s.student_id = '$_REQUEST[stu]' "); */
+				  				  while ($show2 = mysql_fetch_assoc ($sql2)){
+				  				  $s_id = $show2[s_id];
+				  				  $total += $show2[score];
+				  				  ?>
+				  	            <tr>
+				  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[day];?></span></th>
+				  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[description];?></span></th>
+				  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[score];?></span></th>
+				  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[date];?></span></th>
+				  	            </tr>
+				  				   <? }?>
+				  	            <tr>
+				  	              <th colspan="4" class="font2" scope="col"><hr /><div align="right" class="style1">คะแนนรวมทั้งหมด : <? echo $total;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><hr /></th>
+				  	            </tr>
+				  				 
+				  	            <tr>
+				  	              <th colspan="4" scope="col">
+				  	              <div align="right">
+				  	                <label></label>
+				  	                <form id="form1" name="form1" method="post" action="?t=save&s_id=<? echo $s_id;?>&id=<? echo $_REQUEST['id'];?>">
+				  	                  <label class="style1">
+				  	                  <span class="font">
+				  	                  		<input name="chk" type="radio" value="1" <? if($sw==3){echo 'checked';}?> />ผ่าน
+				  	                  		
+				  	                  </span>&nbsp;&nbsp;
+				  	                  		<input name="Submit2" type="submit" class="submit" value="บันทึก" />
+				  	                  </label>
+				  	                  <tr>
+				  	              		<th colspan="4" scope="col">
+				  	              			<? if(mysql_num_rows($sql2)==0)
+				  	              					{
+				  	              						echo '<font color=red>ไม่พบข้อมูล</font>';
+				  	              					} 
+				  	              				else 
+				  	              					{?>
+				  	                					<input name="Input" type="button" class="submit" onclick="window.print();" value="พิมพ์" />
+				  	                			<? }?>	
+				  	                	</th>
+				  	            	</tr>
+				  	             	<hr/>
+				  	             </form>
+				  	             </div>
+				  	             	</th>
+				  	              </tr>
+				  	              
+            		<?
+            		
             }
+           	elseif ($_REQUEST[point]=='1')
+           	{
+           		$sw = $_REQUEST[point];?>
+           						  				
+           						  	            <tr>
+           						  	              <th width="19%" bgcolor="#0099FF" class="style1" scope="col">วัน</th>
+           						  	              <th width="39%" bgcolor="#0099FF" class="style1" scope="col">รายการที่ตรวจ</th>
+           						  	              <th width="17%" bgcolor="#0099FF" class="style1" scope="col">คะแนนที่ได้</th>
+           						  	              <th bgcolor="#0099FF" class="style1" scope="col">วันที่ตรวจ</th>
+           						  	            </tr>
+           						  				  <? 
+           						  				  	  
+           						  				  /* ORDER BY RECORD_TIME DESC LIMIT 1 */
+           						  				  
+           						  				  $sql = mysql_query ("select * from student_health where student_id = '$_REQUEST[id]' && s_month = '$_REQUEST[month]' && s_year = '$_REQUEST[year]'");
+           						  				  $show = mysql_fetch_assoc ($sql);
+           						  				  
+           						  				  $sql2 = mysql_query ("select * from student_health_detail  where s_id order by s_id DESC LIMIT 1 ");
+           						  				  /* $sql2 = mysql_query ("select * from student_health s ,student_health_detail d where s.s_id = d.s_id && s.student_id = '$_REQUEST[stu]' "); */
+           						  				  while ($show2 = mysql_fetch_assoc ($sql2)){
+           						  				  $s_id = $show2[s_id];
+           						  				  $total += $show2[score];
+           						  				  ?>
+           						  	            <tr>
+           						  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[day];?></span></th>
+           						  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[description];?></span></th>
+           						  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[score];?></span></th>
+           						  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[date];?></span></th>
+           						  	            </tr>
+           						  				   <? }?>
+           						  	            <tr>
+           						  	              <th colspan="4" class="font2" scope="col"><hr /><div align="right" class="style1">คะแนนรวมทั้งหมด : <? echo $total;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><hr /></th>
+           						  	            </tr>
+           						  				 
+           						  	            <tr>
+           						  	              <th colspan="4" scope="col">
+           						  	              <div align="right">
+           						  	                <label></label>
+           						  	                <form id="form1" name="form1" method="post" action="?s=save&s_id=<? echo $s_id;?>&id=<? echo $_REQUEST['id'];?>">
+           						  	                  <label class="style1">
+           						  	                  <span class="font">
+           						  	                  		<input name="chk" type="radio" value="2" <? if($sw==1){echo 'checked';}?> />ไม่ผ่าน
+           						  	                  		
+           						  	                  </span>&nbsp;&nbsp;
+           						  	                  		<input name="id_s" type="hidden"  value="<? echo $_REQUEST[stu];?>" />
+                  											<input name="m" type="hidden"  value="<? echo $_REQUEST[mount_s];?>" />
+                  											<input name="y" type="hidden"  value="<? echo $_REQUEST[year_s];?>" />
+           						  	                  		<input name="Submit2" type="submit" class="submit" value="บันทึก" />
+           						  	                  </label>
+           						  	                  <tr>
+           						  	              		<th colspan="4" scope="col">
+           						  	              			<? if(mysql_num_rows($sql2)==0)
+           						  	              					{
+           						  	              						echo '<font color=red>ไม่พบข้อมูล</font>';
+           						  	              					} 
+           						  	              				else 
+           						  	              					{?>
+           						  	                					<input name="Input" type="button" class="submit" onclick="window.print();" value="พิมพ์" />
+           						  	                			<? }?>	
+           						  	                	</th>
+           						  	            	</tr>
+           						  	             	<hr/>
+           						  	             </form>
+           						  	             </div>
+           						  	             	</th>
+           						  	              </tr>   
+           	<?php        		
+           	}
             else {
 			if($_REQUEST['return']=='1'){
+				
 			if($_REQUEST[chk]==""){
 			$sw = $_REQUEST[chk];?>
 			
@@ -274,6 +412,65 @@ include "header.php";?>
 				  	             	</th>
 				  	              </tr>				  	
 				<?  }
+								elseif ($_REQUEST[chk]==3) {
+								  	$sw = $_REQUEST[chk];?>
+								  				
+								  	            <tr>
+								  	              <th width="19%" bgcolor="#0099FF" class="style1" scope="col">วัน</th>
+								  	              <th width="39%" bgcolor="#0099FF" class="style1" scope="col">รายการที่ตรวจ</th>
+								  	              <th width="17%" bgcolor="#0099FF" class="style1" scope="col">คะแนนที่ได้</th>
+								  	              <th bgcolor="#0099FF" class="style1" scope="col">วันที่ตรวจ</th>
+								  	            </tr>
+								  				  <? 
+								  				  	  
+								  				  /* ORDER BY RECORD_TIME DESC LIMIT 1 */
+								  				  
+								  				  $sql = mysql_query ("select * from student_health where student_id = '$_REQUEST[id]' && s_month = '$_REQUEST[month]' && s_year = '$_REQUEST[year]'");
+								  				  $show = mysql_fetch_assoc ($sql);
+								  				  
+								  				  $sql2 = mysql_query ("select * from student_health_detail  where s_id order by s_id DESC LIMIT 1 ");
+								  				  /* $sql2 = mysql_query ("select * from student_health s ,student_health_detail d where s.s_id = d.s_id && s.student_id = '$_REQUEST[stu]' "); */
+								  				  while ($show2 = mysql_fetch_assoc ($sql2)){
+								  				  $s_id = $show2[s_id];
+								  				  $total += $show2[score];
+								  				  ?>
+								  	            <tr>
+								  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[day];?></span></th>
+								  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[description];?></span></th>
+								  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[score];?></span></th>
+								  	              <th class="font2" scope="col"><span class="style2"><? echo $show2[date];?></span></th>
+								  	            </tr>
+								  				   <? }?>
+								  	            <tr>
+								  	              <th colspan="4" class="font2" scope="col"><hr /><div align="right" class="style1">คะแนนรวมทั้งหมด : <? echo $total;?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><hr /></th>
+								  	            </tr>
+								  				 
+								  	            <tr>
+								  	              <th colspan="4" scope="col">
+								  	              <div align="right">
+								  	                <label></label>
+								  	                  <label class="style1">
+								  	                  <span class="font">
+								  	                  		<input name="chk" type="radio" value="1" <? if($sw==3){echo 'checked';}?> />ผ่าน					  	                  		
+								  	                  </span>&nbsp;&nbsp;
+								  	                  </label>
+								  	                  <tr>
+								  	              		<th colspan="4" scope="col">
+								  	              			<? if(mysql_num_rows($sql2)==0)
+								  	              					{
+								  	              						echo '<font color=red>ไม่พบข้อมูล</font>';
+								  	              					} 
+								  	              				else 
+								  	              					{?>
+								  	                					<input name="Input" type="button" class="submit" onclick="window.print();" value="พิมพ์" />
+								  	                			<? }?>	
+								  	                	</th>
+								  	            	</tr>
+								  	             	<hr/>
+								  	             </div>
+								  	             	</th>
+								  	              </tr>				  	
+								<?  }
 				  else {
 				   if($_REQUEST[chk]==2){
 				   	$sw = $_REQUEST[chk];
@@ -310,12 +507,12 @@ include "header.php";?>
                 			<form id="form1" name="form1" method="post" action="?s=save&s_id=<? echo $s_id;?>&id=<? echo $_REQUEST['id'];?>">
                   			<label class="style1">
                   				<span class="font">
-                  					<input name="chk" type="radio" value="1" <? if($sw==1){echo 'checked';}?> />ผ่าน
+                  					
                   					<input name="chk" type="radio" value="2" <? if($sw==2){echo 'checked';}?> />ไม่ผ่าน
                   				</span>&nbsp;&nbsp;
                   			</label>
                   			<label>
-                  				<input name="Submit2" type="submit" class="submit" value="บันทึก" />
+                  				<!-- <input name="Submit2" type="submit" class="submit" value="บันทึก" /> -->
                   			</label>
              				<hr/>
              				</form>
